@@ -19,8 +19,20 @@ runs:
     - name: Checkout FixGuy repo
       uses: actions/checkout@v4
       with:
-        repository: CyberSage5/fixguy  # Replace 'username' with your GitHub username
+        repository: CyberSage5/fixguy
         path: fixguy-action
+      # Debug the checkout
+      run: |
+        echo "Listing contents of fixguy-action:"
+        ls -la fixguy-action/
+        if [ -f "fixguy-action/requirements.txt" ]; then
+          echo "requirements.txt found!"
+          cat fixguy-action/requirements.txt
+        else
+          echo "Error: requirements.txt not found in fixguy-action/"
+          exit 1
+        fi
+      shell: bash
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -29,8 +41,18 @@ runs:
     
     - name: Install Python dependencies
       run: |
+        echo "Upgrading pip..."
         python -m pip install --upgrade pip
-        pip install -r fixguy-action/requirements.txt  # Point to the checked-out requirements.txt
+        if [ -f "fixguy-action/requirements.txt" ]; then
+          echo "Installing dependencies from requirements.txt"
+          pip install -r fixguy-action/requirements.txt
+          echo "Installed packages:"
+          pip list | grep -E "PyGithub|flake8|GitPython"  # Check key packages
+        else
+          echo "Error: requirements.txt not found in fixguy-action/"
+          ls -la fixguy-action/  # Debug file listing
+          exit 1
+        fi
       shell: bash
     
     - name: Set up Node.js for ESLint
@@ -68,5 +90,5 @@ runs:
 
     - name: Run FixGuy
       run: python -m main "${{ github.event.repository.html_url }}" "${{ inputs.github-token }}"
-      working-directory: fixguy-action  # Run from FixGuy's directory
+      working-directory: fixguy-action
       shell: bash
