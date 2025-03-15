@@ -3,8 +3,8 @@ description: "Automate code quality fixes for Python, JS, TS, Java, and Go"
 author: "<Your Name>"
 
 branding:
-  icon: "tool"  # Wrench icon for fixing code
-  color: "#1976D2"  # Tech blue for a professional look
+  icon: "tool"
+  color: "#1976D2"
 
 inputs:
   github-token:
@@ -15,6 +15,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+    # Check out FixGuy repo to access requirements.txt
+    - name: Checkout FixGuy repo
+      uses: actions/checkout@v4
+      with:
+        repository: username/fixguy  # Replace 'username' with your GitHub username
+        path: fixguy-action
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -23,7 +30,7 @@ runs:
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r fixguy-action/requirements.txt  # Point to the checked-out requirements.txt
       shell: bash
     
     - name: Set up Node.js for ESLint
@@ -53,6 +60,13 @@ runs:
       run: go install honnef.co/go/tools/cmd/staticcheck@latest
       shell: bash
     
+    # Check out the user's repo for linting
+    - name: Checkout user's repo
+      uses: actions/checkout@v4
+      with:
+        path: user-repo
+
     - name: Run FixGuy
       run: python -m main "${{ github.repositoryUrl }}" "${{ inputs.github-token }}"
+      working-directory: fixguy-action  # Run from FixGuy's directory
       shell: bash
