@@ -2,9 +2,9 @@
 """FixGuy: Automated code quality tool."""
 
 import sys
-from github.api import GitHubHandler
-from linters.python import PythonLinter
-from utils.git import GitManager
+from fixguy.github.api import GitHubHandler  # Corrected: use fixguy.github.api
+from fixguy.linters.python import PythonLinter  # Already correct
+from fixguy.utils.git import GitManager  # Already correct
 
 class FixGuy:
     """Core FixGuy class to orchestrate linting and PR creation."""
@@ -42,7 +42,7 @@ class FixGuy:
 def main():
     """Entry point for FixGuy."""
     if len(sys.argv) != 3:
-        print("Usage: python -m fixguy <repo_url> <github_token>")
+        print("Usage: python -m fixguy.main <repo_url> <github_token>")
         sys.exit(1)
     
     repo_url = sys.argv[1]  # e.g., https://github.com/username/repo
