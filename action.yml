@@ -21,8 +21,9 @@ runs:
       with:
         repository: CyberSage5/fixguy
         path: fixguy-action
-
-    - name: Debug the checkout
+        
+    # Debug the checkout
+    - name: List contents of fixguy-action
       run: |
         echo "Listing contents of fixguy-action:"
         ls -la fixguy-action/
@@ -33,7 +34,7 @@ runs:
           echo "Error: requirements.txt not found in fixguy-action/"
           exit 1
       shell: bash
-
+    
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -89,7 +90,7 @@ runs:
       uses: actions/checkout@v4
       with:
         path: user-repo
-
+    
     - name: Run FixGuy
       run: python -m main "${{ github.event.repository.html_url }}" "${{ inputs.github-token }}"
       working-directory: fixguy-action
