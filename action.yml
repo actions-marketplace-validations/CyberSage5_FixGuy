@@ -1,11 +1,17 @@
-name: "codefixguy"  
+name: "codefixguy"
 description: "Automate code quality fixes for Python, JS, TS, Java, and Go"
 author: "<Your Name>"
+
+branding:
+  icon: "tool"  # Wrench icon for fixing code
+  color: "#1976D2"  # Tech blue for a professional look
+
 inputs:
   github-token:
     description: "GitHub token with repo scope"
     required: true
     default: ${{ github.token }}
+
 runs:
   using: "composite"
   steps:
