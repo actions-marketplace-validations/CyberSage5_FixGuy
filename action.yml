@@ -22,8 +22,7 @@ runs:
         repository: CyberSage5/fixguy
         path: fixguy-action
 
-    # Debug the checkout
-    - name: List contents of fixguy-action
+    - name: Debug the checkout
       run: |
         echo "Listing contents of fixguy-action:"
         ls -la fixguy-action/
@@ -33,7 +32,6 @@ runs:
         else
           echo "Error: requirements.txt not found in fixguy-action/"
           exit 1
-        fi
       shell: bash
 
     - name: Set up Python
@@ -54,14 +52,12 @@ runs:
           echo "Error: requirements.txt not found in fixguy-action/"
           ls -la fixguy-action/  # Debug file listing
           exit 1
-        fi
       shell: bash
     
     - name: Set up Node.js for ESLint
       uses: actions/setup-node@v4
       with:
         node-version: "20"
-    
     - name: Install ESLint
       run: npm install eslint --global
       shell: bash
@@ -71,7 +67,6 @@ runs:
       with:
         java-version: "17"
         distribution: "temurin"
-    
     - name: Install Checkstyle
       run: |
         wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.17.0/checkstyle-10.17.0-all.jar
@@ -82,7 +77,6 @@ runs:
       uses: actions/setup-go@v5
       with:
         go-version: "1.22"
-    
     - name: Install Staticcheck
       run: go install honnef.co/go/tools/cmd/staticcheck@latest
       shell: bash
