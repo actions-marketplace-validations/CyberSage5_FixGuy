@@ -21,7 +21,8 @@ runs:
       with:
         repository: CyberSage5/fixguy
         path: fixguy-action
-      # Debug the checkout
+
+    - name: Debug the checkout
       run: |
         echo "Listing contents of fixguy-action:"
         ls -la fixguy-action/
@@ -31,7 +32,6 @@ runs:
         else
           echo "Error: requirements.txt not found in fixguy-action/"
           exit 1
-        fi
       shell: bash
 
     - name: Set up Python
@@ -52,7 +52,6 @@ runs:
           echo "Error: requirements.txt not found in fixguy-action/"
           ls -la fixguy-action/  # Debug file listing
           exit 1
-        fi
       shell: bash
     
     - name: Set up Node.js for ESLint
