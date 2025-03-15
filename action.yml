@@ -1,15 +1,13 @@
-name: "FixGuy"
-description: "Automated code quality fixes for Python, JS, TS, Java, and Go"
+name: "codefixguy"  
+description: "Automate code quality fixes for Python, JS, TS, Java, and Go"
 author: "<Your Name>"
-
 inputs:
   github-token:
     description: "GitHub token with repo scope"
     required: true
-    default: ${{ github.token }}  # Default to workflow token
-
+    default: ${{ github.token }}
 runs:
-  using: "composite"  # Runs multiple steps in the repo
+  using: "composite"
   steps:
     - name: Set up Python
       uses: actions/setup-python@v5
