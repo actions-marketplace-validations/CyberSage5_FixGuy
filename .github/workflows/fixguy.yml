@@ -27,4 +27,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.FIXGUY_TOKEN }}
           REPO_URL: ${{ github.repositoryUrl }}
         run: |
-          python -m fixguy "$REPO_URL" "$GITHUB_TOKEN"
+          python -m fixguy.main "$REPO_URL" "$GITHUB_TOKEN"
