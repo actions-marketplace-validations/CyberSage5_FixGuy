@@ -3,20 +3,18 @@
 
 import sys
 import os
-from fixguy.github.api import GitHubHandler
-from fixguy.linters.python import PythonLinter
-from fixguy.linters.javascript import JavaScriptLinter  # New
-from fixguy.linters.java import JavaLinter  # New
-from fixguy.linters.go import GoLinter  # New
-from fixguy.utils.git import GitManager
+from github.api import GitHubHandler
+from linters.python import PythonLinter
+from linters.javascript import JavaScriptLinter
+from linters.java import JavaLinter
+from linters.go import GoLinter
+from utils.git import GitManager
 
 class FixGuy:
-    """Core FixGuy class to orchestrate linting and PR creation."""
-    
     SUPPORTED_LANGUAGES = {
         ".py": PythonLinter,
         ".js": JavaScriptLinter,
-        ".ts": JavaScriptLinter,  # TypeScript uses eslint too
+        ".ts": JavaScriptLinter,
         ".java": JavaLinter,
         ".go": GoLinter
     }
@@ -42,8 +40,11 @@ class FixGuy:
         """Main execution flow."""
         print(f"Starting FixGuy for {self.repo_url}")
         
-        # Clone the repo
+        # Clone the repo to a known path
         repo_path = self.github.clone_repo()
+        
+        # Adjust path to user-repo (from action.yml)
+        repo_path = os.path.abspath("../user-repo")
         
         # Scan for files
         files_by_lang = self.scan_files(repo_path)
@@ -71,9 +72,8 @@ class FixGuy:
         self.github.cleanup(repo_path)
 
 def main():
-    """Entry point for FixGuy."""
     if len(sys.argv) != 3:
-        print("Usage: python -m fixguy.main <repo_url> <github_token>")
+        print("Usage: python -m main <repo_url> <github_token>")
         sys.exit(1)
     
     repo_url = sys.argv[1]
