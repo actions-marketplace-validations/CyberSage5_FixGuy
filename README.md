@@ -1,5 +1,9 @@
 # FixGuy
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
+[![Build Status](https://github.com/CyberSage5/fixguy/actions/workflows/fixguy.yml/badge.svg)](https://github.com/CyberSage5/fixguy/actions/workflows/fixguy.yml)
+[![GitHub release](https://img.shields.io/github/release/username/fixguy.svg)](https://github.com/CyberSage5/fixguy/releases)
+
 Automated code quality fixes for Python, JavaScript, TypeScript, Java, and Go.
 
 ## Usage
@@ -16,6 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: username/fixguy@v1.0.0  # Repo stays username/fixguy
+      - uses: username/fixguy@v1.0.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
