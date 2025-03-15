@@ -1,6 +1,6 @@
 name: "codefixguy"
 description: "Automate code quality fixes for Python, JS, TS, Java, and Go"
-author: "<Your Name>"
+author: "CyberSage5"
 
 branding:
   icon: "tool"
@@ -19,7 +19,7 @@ runs:
     - name: Checkout FixGuy repo
       uses: actions/checkout@v4
       with:
-        repository: username/fixguy  # Replace 'username' with your GitHub username
+        repository: CyberSage5/fixguy  # Replace 'username' with your GitHub username
         path: fixguy-action
 
     - name: Set up Python
@@ -67,6 +67,6 @@ runs:
         path: user-repo
 
     - name: Run FixGuy
-      run: python -m main "${{ github.repositoryUrl }}" "${{ inputs.github-token }}"
+      run: python -m main "${{ github.event.repository.html_url }}" "${{ inputs.github-token }}"
       working-directory: fixguy-action  # Run from FixGuy's directory
       shell: bash
