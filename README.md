@@ -20,6 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: CyberSage5/fixguy@v1.0.5
+      - uses: CyberSage5/fixguy@v1.0.6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
