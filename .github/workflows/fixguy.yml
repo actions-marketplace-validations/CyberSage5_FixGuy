@@ -1,54 +1,25 @@
-name: FixGuy
-
-on:
-  schedule:
-    - cron: "0 0 * * 0"  # Weekly on Sunday at midnight UTC
-  workflow_dispatch:
-
+name: Run FixGuy
+on: [push, pull_request]
 jobs:
-  fixguy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      
-      - name: Set up Node.js for ESLint
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - name: Install ESLint
-        run: npm install eslint --global
-      
-      - name: Set up Java for Checkstyle
-        uses: actions/setup-java@v4
-        with:
-          java-version: "17"
-          distribution: "temurin"
-      - name: Install Checkstyle
-        run: |
-          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.17.0/checkstyle-10.17.0-all.jar
-          sudo mv checkstyle.jar /usr/local/lib/
-      
-      - name: Set up Go for Staticcheck
-        uses: actions/setup-go@v5
-        with:
-          go-version: "1.22"
-      - name: Install Staticcheck
-        run: go install honnef.co/go/tools/cmd/staticcheck@latest
-      
-      - name: Run FixGuy
-        env:
-          GITHUB_TOKEN: ${{ secrets.FIXGUY_TOKEN }}
-          REPO_URL: ${{ github.repositoryUrl }}
-        run: |
-          python -m fixguy.main "$REPO_URL" "$GITHUB_TOKEN"
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        if [ -f fixguy-action/requirements.txt ]; then
+          pip install -r fixguy-action/requirements.txt
+          echo "Installed packages:"
+          pip list | grep -E "PyGithub|flake8|GitPython"  # Check key packages
+        else
+          echo "Error: requirements.txt not found in fixguy-action/"
+          ls -la fixguy-action/  # Debug file listing
+          exit 1
+        fi
