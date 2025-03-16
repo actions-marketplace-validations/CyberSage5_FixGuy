@@ -22,7 +22,6 @@ runs:
         repository: CyberSage5/fixguy
         path: fixguy-action
 
-    # Debug the checkout
     - name: Debug the checkout
       run: |
         echo "Listing contents of fixguy-action:"
@@ -49,10 +48,10 @@ runs:
           echo "Installing dependencies from requirements.txt"
           pip install -r fixguy-action/requirements.txt
           echo "Installed packages:"
-          pip list | grep -E "PyGithub|flake8|GitPython"  # Check key packages
+          pip list | grep -E "PyGithub|flake8|GitPython"
         else
           echo "Error: requirements.txt not found in fixguy-action/"
-          ls -la fixguy-action/  # Debug file listing
+          ls -la fixguy-action/
           exit 1
         fi
       shell: bash
